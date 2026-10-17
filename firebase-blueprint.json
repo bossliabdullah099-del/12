@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and account settings",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "User unique identifier" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Display name" },
+        "photoURL": { "type": "string", "description": "Profile avatar URL" },
+        "role": { "type": "string", "description": "Role such as user or admin" },
+        "plan": { "type": "string", "description": "Subscription tier e.g. Free or Pro" },
+        "createdAt": { "type": "string", "description": "Timestamp ISO string of creation" }
+      },
+      "required": ["id", "email", "createdAt"]
+    },
+    "GeneratedImage": {
+      "title": "GeneratedImage",
+      "description": "AI-generated image record with metadata and prompt",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique record ID" },
+        "userId": { "type": "string", "description": "Creator user UID" },
+        "prompt": { "type": "string", "description": "Original user input prompt" },
+        "revisedPrompt": { "type": "string", "description": "Cinematic revised prompt from Gemini" },
+        "imageUrl": { "type": "string", "description": "Rendered image URL" },
+        "style": { "type": "string", "description": "Artistic style applied" },
+        "aspectRatio": { "type": "string", "description": "Aspect ratio e.g. 1:1, 16:9" },
+        "seed": { "type": "number", "description": "Random seed used for generation" },
+        "modelUsed": { "type": "string", "description": "AI model or synthesis pipeline" },
+        "createdAt": { "type": "string", "description": "Timestamp ISO string of generation" }
+      },
+      "required": ["id", "userId", "prompt", "imageUrl", "createdAt"]
+    },
+    "ChatConversation": {
+      "title": "ChatConversation",
+      "description": "Chat session with title and metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Conversation ID" },
+        "userId": { "type": "string", "description": "Owner user UID" },
+        "userEmail": { "type": "string", "description": "Owner user email address for partitioned chat storage" },
+        "title": { "type": "string", "description": "Conversation title or summary" },
+        "createdAt": { "type": "string", "description": "Creation timestamp ISO string" },
+        "updatedAt": { "type": "string", "description": "Last message timestamp ISO string" }
+      },
+      "required": ["id", "userId", "title", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Single message inside a chat conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Message ID" },
+        "conversationId": { "type": "string", "description": "Parent conversation ID" },
+        "userId": { "type": "string", "description": "Sender UID" },
+        "role": { "type": "string", "description": "Role: user or assistant" },
+        "content": { "type": "string", "description": "Message text content" },
+        "mediaType": { "type": "string", "description": "Optional media attachment type" },
+        "timestamp": { "type": "string", "description": "Timestamp ISO string" }
+      },
+      "required": ["id", "conversationId", "userId", "role", "content", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile collection"
+    },
+    "/images/{imageId}": {
+      "schema": "GeneratedImage",
+      "description": "Public and user-generated gallery images"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "ChatConversation",
+      "description": "User chat conversations"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Subcollection of chat messages"
+    }
+  }
+}

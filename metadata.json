@@ -1,0 +1,6 @@
+{
+  "name": "Boss AI",
+  "description": "BOSS AURA AI - Elite professional coding assistant across all programming languages, universal reasoning, and software architecture intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
